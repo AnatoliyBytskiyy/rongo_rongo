@@ -9,7 +9,7 @@ export default new Vuex.Store({
     status: '',
     token: localStorage.getItem('token') || '',
     user: JSON.parse(localStorage.getItem('user')) || {},
-    admin: localStorage.getItem('admin') || null
+    admin: JSON.parse(localStorage.getItem('admin')) || null
   },
   mutations: {
     auth_request (state) {
