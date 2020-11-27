@@ -7,9 +7,10 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     status: '',
-    token: localStorage.getItem('token') || '',
+    token: localStorage.getItem('token') || null,
     user: JSON.parse(localStorage.getItem('user')) || {},
-    admin: JSON.parse(localStorage.getItem('admin')) || null
+    admin: JSON.parse(localStorage.getItem('admin')) || null,
+    allUsers: {}
   },
   mutations: {
     auth_request (state) {
@@ -20,6 +21,9 @@ export default new Vuex.Store({
       state.token = payload.token
       state.user = payload.user
       state.admin = payload.user.is_admin
+    },
+    all_users_success (state, users) {
+      state.allUsers = users
     },
     auth_error (state) {
       state.status = 'error'
@@ -52,6 +56,25 @@ export default new Vuex.Store({
             localStorage.removeItem('admin')
             reject(err)
           })
+      })
+    },
+    getAllUsers ({ commit }, user) {
+      return new Promise((resolve, reject) => {
+        commit('auth_request')
+        axios({ url: 'http://localhost:3000/finding_friends', method: 'GET' })
+          .then(function (response) {
+            // handle success
+            commit('all_users_success', response.data)
+          })
+          .catch(function (error) {
+            // handle error
+            commit('auth_error')
+            console.log(error)
+          })
+          // .then(function () {
+          //   // always executed
+          //   console.log('hyi!!!')
+          // })
       })
     },
     register ({ commit }, user) {
@@ -113,8 +136,9 @@ export default new Vuex.Store({
   },
   getters: {
     isLoggedIn: state => !!state.token,
-    isAdminIn: state => !!state.admin,
+    isAdminIn: state => state.admin,
     authStatus: state => state.status,
-    userData: state => state.user
+    userData: state => state.user,
+    users: state => state.allUsers
   }
 })

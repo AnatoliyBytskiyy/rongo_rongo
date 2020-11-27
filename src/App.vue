@@ -14,7 +14,7 @@
           <span v-if="isAdminIn">
             | <router-link to="/admin">Admin</router-link>
           </span>
-          | <router-link to="/secure">Secure</router-link> |
+          | <router-link to="/finding_friends">Finding friends</router-link> |
           <a @click="logout">Logout</a>
         </span>
       </div>
@@ -64,6 +64,10 @@ export default {
 
 $image-path: '~@/../mdb/mdbvue/img';
 @import '~@/../mdb/mdbvue/scss/mdb-free.scss';
+
+body {
+  overflow-x: hidden;
+}
 
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;

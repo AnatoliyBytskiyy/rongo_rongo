@@ -40,6 +40,12 @@ class Db {
         })
     }
 
+    selectAllUsers(callback) {
+        return this.db.all(`SELECT id, name FROM user`, function(err,rows){
+            callback(err,rows)
+        })
+    }
+
     insert(user, callback) {
         return this.db.run(
             'INSERT INTO user (name,email,user_pass) VALUES (?,?,?)',

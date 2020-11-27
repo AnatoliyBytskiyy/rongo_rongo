@@ -4,7 +4,7 @@ import store from '../store/index.js'
 import Home from '../views/Home.vue'
 import About from '../views/About.vue'
 import Login from '../components/Login.vue'
-import Secure from '../components/Secure.vue'
+import FindingFriends from '../components/FindingFriends.vue'
 import Register from '../components/Register.vue'
 import RegisterAdmin from '../components/RegisterAdmin.vue'
 import UserBoard from '../components/UserBoard'
@@ -40,9 +40,9 @@ const router = new Router({
       }
     },
     {
-      path: '/secure',
-      name: 'secure',
-      component: Secure,
+      path: '/finding_friends',
+      name: 'finding_friends',
+      component: FindingFriends,
       meta: {
         requiresAuth: true
       }
@@ -79,7 +79,7 @@ const router = new Router({
 
 router.beforeEach((to, from, next) => {
   if (to.matched.some(record => record.meta.requiresAuth)) {
-    if (store.getters.isLoggedIn == null) {
+    if (!store.getters.isLoggedIn) {
       next({ path: '/login', params: { nextUrl: to.fullPath } })
     } else {
       const user = JSON.parse(localStorage.getItem('user'))
