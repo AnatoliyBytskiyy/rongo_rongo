@@ -36,12 +36,36 @@ class Db {
 
     selectAll(callback) {
         return this.db.all(`SELECT * FROM user`, function(err,rows){
+            if(err){console.log(err);}
+            if(rows){
+                console.log('Запрошена полная информация на следующих пользователей: ');
+                rows.forEach(element => console.log(element));
+            }
+
             callback(err,rows)
         })
     }
 
     selectAllUsers(callback) {
         return this.db.all(`SELECT id, name FROM user`, function(err,rows){
+            if(err){console.log(err);}
+            if(rows){
+                console.log('Запрошен список следующих всех пользователей: ');
+                rows.forEach(element => console.log(element));
+            }
+
+            callback(err,rows)
+        })
+    }
+
+    selectSearchUsers(name, callback) {
+        return this.db.all(`SELECT id, name FROM user WHERE name LIKE '%` + name + `%'`, function(err,rows){
+            if(err){console.log(err);}
+            if(rows){
+                console.log('Произведен поиск следующих пользователей: ');
+                rows.forEach(element => console.log(element));
+            }
+
             callback(err,rows)
         })
     }

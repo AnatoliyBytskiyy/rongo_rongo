@@ -7,14 +7,14 @@
       </div>
       <div class="row justify-content-center align-items-center">
         <div class="col-4">
-          <mdb-input type="text" label="Basic example" outline />
+          <mdb-input v-model="searching" type="text" label="Basic example" outline />
         </div>
         <div class="col-3">
-          <mdb-btn outline="default" size="sm" v-on:click="users">Default</mdb-btn>
+          <mdb-btn outline="default" size="sm" v-on:click="searchUsers(searching)">Search</mdb-btn>
         </div>
       </div>
-      <div class="row">
-        <div class="col">
+      <div class="row" v-if='data'>
+        <div class="col" >
           <table class="table">
             <thead>
               <tr>
@@ -23,7 +23,7 @@
               </tr>
             </thead>
             <tbody>
-              <tr v-for="user in allUsers.users" :key="user.id">
+              <tr v-for="user in data.users" :key="user.id">
                 <th scope="row">{{ user.id }}</th>
                 <td>{{ user.name }}</td>
               </tr>
@@ -44,16 +44,35 @@ export default {
   },
   data () {
     return {
-      data: 'Список пользователей пуст'
+      data: null,
+      searching: ''
     }
   },
   computed: {
-    allUsers: function () { return this.$store.getters.users }
+
   },
   methods: {
     users: function () {
-      this.$store.dispatch('getAllUsers')
-        .catch(err => console.log(err))
+      this.$http.get('http://localhost:3000/finding_friends')
+        .then(
+          response => (this.data = response.data)
+        )
+        .catch(function (error) {
+          // handle error
+          console.log(error)
+        })
+        .then(function () {
+          // always executed
+        })
+    },
+    searchUsers: function (name) {
+      this.$http.post('http://localhost:3000/finding_friends', { name: name })
+        .then(
+          response => (this.data = response.data)
+        )
+        .catch(function (error) {
+          console.log(error)
+        })
     }
   },
   created: function () {
