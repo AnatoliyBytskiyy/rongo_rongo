@@ -78,6 +78,14 @@ router.get('/finding_friends', function(req, res) {
     });
 })
 
+router.post('/finding_friends', function(req, res) {
+    db.selectSearchUsers(req.body.name, (err, user) => {
+        if (err) return res.status(500).send('Error on the server.');
+        if (!user) return res.status(404).send('No user found.');
+        res.status(200).send({ users: user });
+    });
+})
+
 app.use(router)
 
 let port = process.env.PORT || 3000;
