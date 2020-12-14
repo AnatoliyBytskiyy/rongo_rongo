@@ -14,7 +14,8 @@
           <span v-if="isAdminIn">
             | <router-link to="/admin">Admin</router-link>
           </span>
-          | <router-link to="/finding_friends">Finding friends</router-link> |
+          | <router-link to="/finding_friends">Finding friends</router-link>
+          | <router-link to="/friends">Friends</router-link> |
           <a @click="logout">Logout</a>
         </span>
       </div>

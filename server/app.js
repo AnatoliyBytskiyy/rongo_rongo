@@ -78,12 +78,36 @@ router.get('/finding_friends', function(req, res) {
     });
 })
 
-router.post('/finding_friends', function(req, res) {
+router.post('/finding_friends/', function(req, res) {
     db.selectSearchUsers(req.body.name, (err, user) => {
         if (err) return res.status(500).send('Error on the server.');
         if (!user) return res.status(404).send('No user found.');
         res.status(200).send({ users: user });
     });
+})
+
+router.post('/finding_friends/add', function(req, res) {
+    db.addFriend(req.body.userId, String(req.body.friendId), (user) => {
+        //if (err) return res.status(500).send('Error on the server.');
+        if (!user) return res.status(404).send('No user found.');
+        res.status(200).send({ friendship: user });
+    });
+})
+
+router.post('/friends', function(req, res) {
+    db.getFriends(req.body.userId, (err, users) => {
+        if (err) return res.status(500).send('Error on the server.');
+        if (!users) return res.status(404).send('No user found.');
+        res.status(200).send({ users });
+    });
+})
+
+router.post('/user', function(req, res) {
+  db.selectUser(req.body.userId, (err, user) => {
+    if (err) return res.status(500).send('Error on the server.');
+    if (!user) return res.status(404).send('No user found.');
+    res.status(200).send({ user });
+  });
 })
 
 app.use(router)
