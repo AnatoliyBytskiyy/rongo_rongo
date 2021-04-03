@@ -4,6 +4,7 @@ import store from '../store/index.js'
 import Home from '../views/Home.vue'
 import About from '../views/About.vue'
 import Login from '../components/Login.vue'
+import Friends from '../components/Friends.vue'
 import FindingFriends from '../components/FindingFriends.vue'
 import Register from '../components/Register.vue'
 import RegisterAdmin from '../components/RegisterAdmin.vue'
@@ -37,6 +38,14 @@ const router = new Router({
       component: RegisterAdmin,
       meta: {
         guest: true
+      }
+    },
+    {
+      path: '/friends',
+      name: 'friends',
+      component: Friends,
+      meta: {
+        requiresAuth: true
       }
     },
     {

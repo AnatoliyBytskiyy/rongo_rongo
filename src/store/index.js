@@ -27,9 +27,29 @@ export default new Vuex.Store({
     logout (state) {
       state.status = ''
       state.token = ''
+    },
+    update (state, payload) {
+      state.status = 'update'
+      state.user = payload.user
     }
   },
   actions: {
+    update ({ commit }, Id) {
+      return new Promise((resolve, reject) => {
+        commit('auth_request')
+        axios.post('http://localhost:3000/user', Id)
+          .then(function (response) {
+            const user = response.data.user
+            localStorage.setItem('user', JSON.stringify(user))
+            commit('update', { user })
+            resolve(response)
+            // console.log(response.data.user.friends)
+          })
+          .catch(function (error) {
+            console.log(error)
+          })
+      })
+    },
     login ({ commit }, user) {
       return new Promise((resolve, reject) => {
         commit('auth_request')
